@@ -4,7 +4,7 @@ from src.db.database import async_session
 from src.db.models import Note
 from sqlalchemy import select, update, delete
 
-from src.models.note import NoteModel
+from src.schemas.note import NoteModel
 
 
 async def get_db() -> AsyncSession:

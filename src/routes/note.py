@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.errors import CustomException
-from src.models.note import NoteModel
+from src.schemas.note import NoteModel
 from src.handlers.note_repository import RepositoryNote, get_db
 
 note = APIRouter()
