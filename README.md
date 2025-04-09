@@ -25,7 +25,9 @@
 2. Соберите и запустите контейнер:
 
    ```bash
-   docker-compose up --build
+   docker build . -t name
+
+   docker run -it -d - -restart=unless-stopped - -name name name
    ```
 
 3. API будет доступно по адресу: `http://localhost:8000`.
