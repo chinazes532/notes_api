@@ -7,11 +7,6 @@ from sqlalchemy import select, update, delete
 from src.schemas.note import NoteModel
 
 
-async def get_db() -> AsyncSession:
-    async with async_session() as session:
-        yield session
-
-
 class RepositoryNote:
     def __init__(self, db: AsyncSession):
         self.db = db
@@ -19,14 +14,15 @@ class RepositoryNote:
     async def set_note(self, note_model: NoteModel):
         async with async_session() as session:
             note = Note(title=note_model.title,
-                        desc=note_model.desc)
+                        desc=note_model.desc,
+                        user_id=note_model.user_id)
             session.add(note)
             await session.commit()
             return note.id
 
-    async def get_all_notes(self):
+    async def get_all_notes_by_user_id(self, user_id: int):
         async with async_session() as session:
-            notes = await session.scalars(select(Note))
+            notes = await session.scalars(select(Note).where(Note.user_id == user_id))
             return notes
 
     async def get_note(self, id):
