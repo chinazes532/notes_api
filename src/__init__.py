@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from starlette.middleware.cors import CORSMiddleware
-
 from src.db.database import create_db
 from src.routes.note import note
 from src.routes.user import user
