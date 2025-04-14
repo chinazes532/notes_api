@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from src.errors import CustomException
 from src.schemas.note import NoteModel
+from src.schemas.pagination import PaginationDep
 from src.handlers.note_repository import RepositoryNote
 from src.db.database import SessionDep
 from src.routes.config import security
@@ -31,9 +32,9 @@ async def add_note(note_model: NoteModel, session: SessionDep):
 
 
 @note.get("/notes/{user_id}", response_model=List[NoteModel], dependencies=[Depends(security.access_token_required)])
-async def all_notes(user_id: int, session: SessionDep):
+async def all_notes(user_id: int, session: SessionDep, pagination: PaginationDep):
     repo = RepositoryNote(session)
-    notes = await repo.get_all_notes_by_user_id(user_id)
+    notes = await repo.get_all_notes_by_user_id(user_id, pagination)
     return notes
 
 

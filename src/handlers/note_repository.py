@@ -5,6 +5,7 @@ from src.db.models import Note
 from sqlalchemy import select, update, delete
 
 from src.schemas.note import NoteModel
+from src.schemas.pagination import PaginationDep
 
 
 class RepositoryNote:
@@ -20,9 +21,9 @@ class RepositoryNote:
             await session.commit()
             return note.id
 
-    async def get_all_notes_by_user_id(self, user_id: int):
+    async def get_all_notes_by_user_id(self, user_id: int, pagination: PaginationDep):
         async with async_session() as session:
-            notes = await session.scalars(select(Note).where(Note.user_id == user_id))
+            notes = await session.scalars(select(Note).where(Note.user_id == user_id).limit(pagination.limit).offset(pagination.offset))
             return notes
 
     async def get_note(self, id):
